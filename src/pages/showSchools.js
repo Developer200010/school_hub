@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Navbar from "./navBar";
+import Navbar from "./navBar.js";
 import "../app/globals.css";
 import Link from "next/link";
 

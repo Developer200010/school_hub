@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../src/app/globals.css";
-import Navbar from "./navBar";
+import Navbar from "./navBar.js";
 
 export default function AddSchool() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
