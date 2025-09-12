@@ -2,6 +2,7 @@
 import formidable from "formidable";
 import cloudinary from "cloudinary";
 import { createConnection } from "@/utils/db";
+import { verifyToken } from "../utils/auth";
 
 export const config = {
   api: { bodyParser: false },
@@ -28,6 +29,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
+  // ✅ Check if user is verified
+  const { valid, message, user } = verifyToken(req, res);
+  if (!valid) {
+    return res.status(401).json({ error: message });
+  }
+
   try {
     const { fields, files } = await parseForm(req);
 
@@ -35,7 +42,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Image is required" });
     }
 
-    const imageFile = files.image[0]; // ✅ Formidable v3 returns array
+    const imageFile = files.image[0];
     const filePath = imageFile.filepath;
 
     // Upload file to Cloudinary
@@ -43,11 +50,11 @@ export default async function handler(req, res) {
       folder: "schoolhub",
     });
 
-    // Save to DB
+    // Save to DB (✅ also store user id as creator)
     const conn = await createConnection();
     const [dbResult] = await conn.query(
-      `INSERT INTO schools (name, address, city, state, contact, email, image)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO schools (name, address, city, state, contact, email, image, creator_id)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         fields.name?.[0] || "",
         fields.address?.[0] || "",
@@ -56,6 +63,7 @@ export default async function handler(req, res) {
         fields.contact?.[0] || "",
         fields.email?.[0] || "",
         result.secure_url,
+        user.id, // ✅ from token payload
       ]
     );
 
@@ -65,6 +73,7 @@ export default async function handler(req, res) {
       data: {
         ...fields,
         image: result.secure_url,
+        creator: user.id,
       },
     });
   } catch (error) {
