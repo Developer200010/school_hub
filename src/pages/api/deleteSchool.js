@@ -1,6 +1,5 @@
 import { createConnection } from "@/utils/db";
-import { verifyToken } from "../utils/auth";
-
+import verifyToken from "@/utils/auth";
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
     return res.status(405).json({ message: "Method not allowed" });

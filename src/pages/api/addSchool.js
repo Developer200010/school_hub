@@ -2,8 +2,7 @@
 import formidable from "formidable";
 import cloudinary from "cloudinary";
 import { createConnection } from "@/utils/db";
-import { verifyToken } from "../utils/auth";
-
+import verifyToken from "@/utils/auth";
 export const config = {
   api: { bodyParser: false },
 };

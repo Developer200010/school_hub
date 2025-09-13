@@ -1,8 +1,7 @@
 import formidable from "formidable";
 import cloudinary from "cloudinary";
 import { createConnection } from "@/utils/db";
-import { verifyToken } from "../utils/auth";
-
+import verifyToken from "@/utils/auth";
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
