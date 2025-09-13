@@ -4,14 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../src/app/globals.css";
-import Navbar from "./navBar.js";
+import { useAuth } from "@/context/AuthContext";
+import Navbar from "./navBar";
 
 export default function AddSchool() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [submitStatus, setSubmitStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+    const { user} = useAuth();
   const onSubmit = async (data) => {
   setSubmitStatus("");
   setLoading(true);
@@ -28,6 +29,9 @@ export default function AddSchool() {
 
     const res = await fetch("/api/addSchool", {
       method: "POST",
+      headers:{
+        Authorization:`Bearer ${user.token}`
+      },
       body: formData,
     });
 console.log(res)
@@ -60,7 +64,7 @@ console.log(res)
 
   return (
     <>
-      <Navbar />
+    <Navbar/>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

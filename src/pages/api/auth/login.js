@@ -1,5 +1,6 @@
 import { createConnection } from "@/utils/db";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -33,8 +34,9 @@ export default async function handler(req, res) {
         .json({ error: "Please verify your email before login" });
     }
 
-    // 3. Check password (⚠️ here it's plain text, later we’ll hash with bcrypt)
-    if (user.password !== password) {
+    // 3. Compare hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -49,6 +51,7 @@ export default async function handler(req, res) {
       success: true,
       message: "Login successful",
       token,
+      user: { id: user.id, email: user.email }, // optional user data
     });
   } catch (error) {
     console.error("Login error:", error);
