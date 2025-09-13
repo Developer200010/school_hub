@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
     // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = new Date(Date.now() + 5 * 60 * 1000);
+    const expiry = new Date(Date.now() + 10 * 60 * 1000);
 
     // Insert or update user with hashed password + OTP
     await db.query(

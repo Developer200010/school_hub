@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
-
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import "../app/globals.css";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
@@ -117,7 +117,7 @@ export default function ShowSchools() {
       }
     } catch (error) {
       console.error("Update error:", error);
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -176,14 +176,17 @@ export default function ShowSchools() {
 
                         {/* ✅ Action Buttons */}
                         {user && user.user.id === school.creator_id && (
-                          <div className="flex justify-between mt-3">
+                          <div className="flex justify-end space-x-3 mt-3">
                             <button
                               onClick={(e) => {
-                                e.preventDefault(); // prevent link navigation
+                                e.preventDefault();
                                 handleEdit(school);
                               }}
-                              className="px-3 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                              className="flex items-center px-3 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+                              title="Edit School"
+                              aria-label="Edit School"
                             >
+                              <AiOutlineEdit className="mr-1" size={18} />
                               Edit
                             </button>
                             <button
@@ -191,8 +194,11 @@ export default function ShowSchools() {
                                 e.preventDefault();
                                 handleDelete(school.id);
                               }}
-                              className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                              className="flex items-center px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                              title="Delete School"
+                              aria-label="Delete School"
                             >
+                              <AiOutlineDelete className="mr-1" size={18} />
                               Delete
                             </button>
                           </div>
@@ -333,7 +339,7 @@ export default function ShowSchools() {
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  {loading?"please wait...":"update"}
+                  {loading ? "please wait..." : "update"}
                 </button>
               </div>
             </form>
