@@ -15,11 +15,15 @@ export default function AddSchool() {
   const { user } = useAuth();
 
   // 🔒 Protect Route
-  useEffect(() => {
-    if (!user || !user.token) {
-      router.replace("/register"); // redirect if not logged in
-    }
-  }, [user, router]);
+ const { user, loadingAuth } = useAuth();
+
+useEffect(() => {
+  if (!loadingAuth && (!user || !user.token)) {
+    router.replace("/register");
+  }
+}, [user, loadingAuth, router]);
+
+if (loadingAuth) return null; // ⏳ wait until auth finishes
 
   const onSubmit = async (data) => {
     setSubmitStatus("");
