@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../src/app/globals.css";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth,loadingAuth } from "@/context/AuthContext";
 import Navbar from "./navBar";
 
 export default function AddSchool() {
