@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../src/app/globals.css";
-import { useAuth,loadingAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import Navbar from "./navBar";
 
 export default function AddSchool() {
@@ -12,7 +12,6 @@ export default function AddSchool() {
   const [submitStatus, setSubmitStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { user } = useAuth();
 
   // 🔒 Protect Route
  const { user, loadingAuth } = useAuth();
