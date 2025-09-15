@@ -20,7 +20,8 @@ export default function Register() {
   const router = useRouter();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#])[A-Za-z\d@$!%*?&^#]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#])[A-Za-z\d@$!%*?&^#]{8,}$/;
 
   const handleRegister = async (data) => {
     setLoading(true);
@@ -80,7 +81,9 @@ export default function Register() {
       >
         {!otpSent ? (
           <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
-            <h1 className="text-2xl font-bold text-center text-indigo-700 mb-6">Register</h1>
+            <h1 className="text-2xl font-bold text-center text-indigo-700 mb-6">
+              Register
+            </h1>
             <input
               placeholder="Name"
               {...register("name", { required: "Name is required" })}
@@ -88,7 +91,9 @@ export default function Register() {
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-600 text-sm">{errors.name.message}</p>
+            )}
 
             <input
               placeholder="Email"
@@ -103,7 +108,9 @@ export default function Register() {
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-600 text-sm">{errors.email.message}</p>
+            )}
 
             <div className="relative">
               <input
@@ -128,10 +135,16 @@ export default function Register() {
                 tabIndex={-1}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                {showPassword ? (
+                  <AiOutlineEyeInvisible size={22} />
+                ) : (
+                  <AiOutlineEye size={22} />
+                )}
               </button>
             </div>
-            {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-600 text-sm">{errors.password.message}</p>
+            )}
 
             <button
               type="submit"
@@ -140,6 +153,24 @@ export default function Register() {
             >
               {loading ? "Sending OTP..." : "Register"}
             </button>
+
+            {/* 👇 Extra Buttons */}
+            <div className="flex justify-between mt-4">
+              <button
+                type="button"
+                onClick={() => router.push("/")}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+              >
+                Home
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/login")}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+              >
+                Login
+              </button>
+            </div>
           </form>
         ) : (
           <motion.div
@@ -164,6 +195,15 @@ export default function Register() {
               className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition duration-300"
             >
               {loading ? "Verifying..." : "Verify OTP"}
+            </button>
+
+            {/* 👇 Always show Home button here too */}
+            <button
+              type="button"
+              onClick={() => router.push("/")}
+              className="w-full mt-3 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+            >
+              Home
             </button>
           </motion.div>
         )}
